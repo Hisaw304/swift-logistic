@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Order Tracking</title>
+    <!-- <link rel="stylesheet" href="styles/shared/general.css" />
+    <link rel="stylesheet" href="styles/shared/amazon-header.css" /> -->
+    <link rel="stylesheet" href="./styles/pages/tracking2.css" />
+  </head>
+  <body>
+    <div class="swift-header">
+      <div class="swift-header-left">
+        <div class="header-link">
+          <img
+            class="amazon-logo"
+            src="images/c66af0d7-3f8b-4ccc-bcae-9723a55c5fbd.JPG"
+          />
+        </div>
+      </div>
+
+      <div class="amazon-header-right-section">
+        <div class="cart-link header-link">
+          <img class="cart-icon" src="images/icons/cart-icon.png" />
+        </div>
+      </div>
+    </div>
+    <main class="main-body">
+      <h1 style="text-align: center">Track Your Order</h1>
+      <input
+        type="text"
+        class="input-tab"
+        id="trackingId"
+        placeholder="Enter Tracking ID"
+      />
+      <br />
+      <button class="track-button" onclick="trackOrder()">Track</button>
+
+      <p
+        id="errorMessage"
+        style="color: red; display: none; font-weight: bold"
+      ></p>
+
+      <div id="result" style="display: none">
+        <div class="order-tracking">
+          <div class="delivery-date" id="deliveryDate"></div>
+
+          <div class="product-info" id="productName"></div>
+          <div class="product-info" id="quantity"></div>
+
+          <img
+            id="productImage"
+            class="product-image"
+            src=""
+            alt="Product Image"
+          />
+
+          <div class="progress-labels-container">
+            <div class="progress-label" id="label1">Preparing</div>
+            <div class="progress-label" id="label2">Shipped</div>
+            <div class="progress-label" id="label3">Delivered</div>
+          </div>
+
+          <!-- <div class="status-bar">
+          <div class="step" id="step1">Ordered</div>
+          <div class="step" id="step2">Shipped</div>
+          <div class="step" id="step3">On the Way</div>
+          <div class="step" id="step4">Delivered</div>
+        </div> -->
+          <p id="statusMessage" class="status-message2"></p>
+          <div class="progress-bar-container">
+            <div class="progress-bar"></div>
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <!-- <img src="/images/IMG_4775.PNG" alt="" /> -->
+
+          <p class="name-address">
+            <strong> Name: Vinicia Randall Brooker </strong>
+            <br />
+            <strong
+              >Shipping Address: 1766 N peach st 19 131 Philadelphia, PA</strong
+            >
+          </p>
+          <!-- <p id="address"></p> -->
+        </div>
+      </div>
+    </main>
+
+    <script>
+      function trackOrder() {
+        const trackingId = document.getElementById("trackingId").value.trim();
+        const resultBox = document.getElementById("result");
+
+        const deliveryDate = document.getElementById("deliveryDate");
+        const productName = document.getElementById("productName");
+        const quantity = document.getElementById("quantity");
+        const productImage = document.getElementById("productImage");
+        const progressFill = document.getElementById("progressFill");
+        const statusMessage = document.getElementById("statusMessage");
+        const errorMessage = document.getElementById("errorMessage");
+
+        statusMessage.style.display = "none";
+        errorMessage.style.display = "none";
+
+        const trackingData = {
+          "15b6fc6f-327a-4ec4-896f-486349e85a5d": {
+            deliveryDate: "Arriving on Monday, July 24",
+            product: "Box Parcel",
+            quantity: "Quantity: 1",
+            image: "/images/IMG_4775.PNG",
+            status: "Shipped", // Options: Preparing, Shipped, Delivered
+          },
+          "83d4ca15-0f35-48f5-b7a3-1ea210004f9m": {
+            deliveryDate: "Arrived on Friday, June 7",
+            product: "Running Shoes - Size 10",
+            quantity: "Quantity: 2",
+            image: "images/products/running-shoes.jpg",
+            status: "Delivered",
+          },
+        };
+
+        if (trackingData[trackingId]) {
+          const data = trackingData[trackingId];
+
+          deliveryDate.textContent = data.deliveryDate;
+          productName.textContent = data.product;
+          quantity.textContent = data.quantity;
+          productImage.src = data.image;
+
+          // Set progress bar width
+          let progress = 0;
+          if (data.status === "Preparing") progress = 33;
+          else if (data.status === "Shipped") progress = 66;
+          else if (data.status === "Delivered") progress = 100;
+
+          //reset width to 0 and trigger animation
+          progressFill.style.transition = "none";
+          progressFill.style.width = "0%";
+          progressFill.offsetWidth;
+          progressFill.style.transition = "width 0.5s ease";
+
+          setTimeout(() => {
+            progressFill.style.width = progress + "%";
+          }, 50); //delay to allow css transition
+
+          // errorMessage.style.display = "none";
+
+          statusMessage.textContent = "✅ Your order is on its way!";
+          statusMessage.style.display = "block";
+          // statusMessage.style.fontSize = "20px";
+          resultBox.style.display = "block";
+        } else {
+          resultBox.style.display = "none";
+          errorMessage.textContent = "❌ Tracking ID not found!";
+          errorMessage.style.display = "block";
+        }
+      }
+    </script>
+  </body>
+</html>
