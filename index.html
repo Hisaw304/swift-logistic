@@ -107,7 +107,7 @@
             product: "Cash Mailing",
             quantity: "Quantity: 1",
             image: "/images/IMG_4775.PNG",
-            status: "Shipped", // Options: Preparing, Shipped, Delivered
+            status: "Hold", // Options: Preparing, Shipped, Delivered
           },
           "15b6fc6f-327a-4ec4-896f-486349e": {
             deliveryDate: "Arrived on Friday, June 7",
@@ -128,7 +128,7 @@
 
           // Set progress bar width
           let progress = 0;
-          if (data.status === "Preparing") progress = 33;
+          if (data.status === "Hold") progress = 33;
           else if (data.status === "Shipped") progress = 66;
           else if (data.status === "Delivered") progress = 100;
 
@@ -144,7 +144,7 @@
 
           // errorMessage.style.display = "none";
 
-          statusMessage.textContent = "✅ Your order is on its way!";
+          statusMessage.textContent = "⚠️ Your package is currently on hold at the sender’s request!";
           statusMessage.style.display = "block";
           // statusMessage.style.fontSize = "20px";
           resultBox.style.display = "block";
